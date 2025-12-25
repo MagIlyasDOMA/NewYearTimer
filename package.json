@@ -1,0 +1,16 @@
+{
+  "name": "newyeartimer",
+  "author": "Маг Ильяс DOMA (MagIlyasDOMA)",
+  "scripts": {
+    "runserver": "http-server -p 2026"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "hrenpack_js": "^3.3.0",
+    "hrenpack-theme-style": "^3.2.8",
+    "http-server": "^14.1.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

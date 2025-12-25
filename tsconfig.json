@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+	"target": "ES2020",
+	"module": "ESNext",
+	"lib": ["ES2020", "DOM", "DOM.Iterable", "ESNext"],
+	"moduleResolution": "bundler",
+	"resolveJsonModule": true,
+	"isolatedModules": true,
+	"noEmit": false,
+
+	// Строгость типов
+	"strict": true,
+	"strictNullChecks": false,
+	"noUncheckedIndexedAccess": true,
+//	"exactOptionalPropertyTypes": true,
+
+	// Совместимость
+	"esModuleInterop": true,
+	"allowSyntheticDefaultImports": true,
+	"forceConsistentCasingInFileNames": true,
+
+	// Output - КОМПИЛЯЦИЯ В ТУ ЖЕ ДИРЕКТОРИЮ
+	"declaration": true,
+	"declarationMap": true,
+	"sourceMap": true,
+	"rootDir": "./",
+	"outDir": "./",
+	"removeComments": true,
+
+	// Современные возможности
+	"useDefineForClassFields": true,
+	"skipLibCheck": true,
+	"experimentalDecorators": true
+  },
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts", "hrenpack_js/src", "cloned", "old"],
+}
