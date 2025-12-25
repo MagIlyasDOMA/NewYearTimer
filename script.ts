@@ -1,4 +1,5 @@
-// Интерфейс для хранения оставшегося времени
+const YEAR = 2026;
+
 interface TimeRemaining {
     total: number;
     days: number;
@@ -119,7 +120,7 @@ class CountdownTimer {
     // Метод для перезапуска таймера
     public restartTimer(): void {
         this.stopTimer();
-        this.targetDate = new Date('January 1, 2026 00:00:00');
+        this.targetDate = new Date(`January 1, ${YEAR} 00:00:00`);
         this.startTimer();
     }
 }
