@@ -1,3 +1,4 @@
+declare const YEAR = 2026;
 interface TimeRemaining {
     total: number;
     days: number;

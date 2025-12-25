@@ -1,4 +1,5 @@
 "use strict";
+const YEAR = 2026;
 class CountdownTimer {
     constructor() {
         Object.defineProperty(this, "targetDate", {
@@ -107,7 +108,7 @@ class CountdownTimer {
     }
     restartTimer() {
         this.stopTimer();
-        this.targetDate = new Date('January 1, 2026 00:00:00');
+        this.targetDate = new Date(`January 1, ${YEAR} 00:00:00`);
         this.startTimer();
     }
 }
