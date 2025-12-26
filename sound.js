@@ -51,6 +51,7 @@ class SoundPlayer {
             source.buffer = buffer;
             source.connect(this.audioContext.destination);
             source.start();
+            document.getElementById('click').style.display = 'none';
             if (this.audioContext.state === 'suspended') {
                 await this.audioContext.resume();
             }

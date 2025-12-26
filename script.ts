@@ -1,4 +1,5 @@
-const YEAR = 2026;
+const config: Config = (window as any).config;
+const YEAR = config.year || 2026;
 
 interface TimeRemaining {
     total: number;
@@ -88,8 +89,8 @@ class CountdownTimer {
 
         // Воспроизводим звук только когда аудио готово
         // и только каждую секунду (когда секунды меняются)
-        if (!document.hidden) {
-            if (soundPlayer.isReady()) {
+        if (!document.hidden || config.soundIfIsHidden) {
+            if (soundPlayer.isReady() && config.sound) {
                 soundPlayer.loadSound('clock', 'clock.mp3')
                     .then(() => {
                         soundPlayer.playSound('clock', 0.3);

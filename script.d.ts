@@ -1,4 +1,5 @@
-declare const YEAR = 2026;
+declare const config: Config;
+declare const YEAR: number;
 interface TimeRemaining {
     total: number;
     days: number;

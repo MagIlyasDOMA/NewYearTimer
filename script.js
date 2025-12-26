@@ -1,5 +1,6 @@
 "use strict";
-const YEAR = 2026;
+const config = window.config;
+const YEAR = config.year || 2026;
 class CountdownTimer {
     constructor() {
         Object.defineProperty(this, "targetDate", {
@@ -85,8 +86,8 @@ class CountdownTimer {
         this.hoursElement.textContent = this.formatNumber(time.hours);
         this.minutesElement.textContent = this.formatNumber(time.minutes);
         this.secondsElement.textContent = this.formatNumber(time.seconds);
-        if (!document.hidden) {
-            if (soundPlayer.isReady()) {
+        if (!document.hidden || config.soundIfIsHidden) {
+            if (soundPlayer.isReady() && config.sound) {
                 soundPlayer.loadSound('clock', 'clock.mp3')
                     .then(() => {
                     soundPlayer.playSound('clock', 0.3);

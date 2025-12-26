@@ -18,7 +18,17 @@ cd NewYearTimer
 npm install
 ```
 
-#### 5. Запустите сервер
+#### 5. Задайте конфигурацию таймера
+```json
+{
+  "year": 2026, // Год
+  "sound": true, // Включить звук
+  "soundIfIsHidden": false, // Оставлять звук, если вкладка выключена
+  "timerTransparency": 8 // Прозрачность фона таймера (0-10)
+}
+```
+
+#### 6. Запустите сервер
 ```shell
 npm run runserver
 ```
