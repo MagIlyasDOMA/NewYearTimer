@@ -44,7 +44,7 @@ class Config {
     }
     updateTimerTransparency(value) {
         for (const timer of Config.timerBoxes) {
-            timer.style.backgroundImage = `url("/timer_bg/${value}0.png")`;
+            timer.style.backgroundImage = `url("https://magilyasdoma.github.io/timer_bg/${value}0.png")`;
         }
     }
     static get colonSeparators() {
