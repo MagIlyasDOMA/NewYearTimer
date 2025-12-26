@@ -1,5 +1,3 @@
-declare const config: Config;
-declare const YEAR: number;
 interface TimeRemaining {
     total: number;
     days: number;
@@ -8,19 +6,24 @@ interface TimeRemaining {
     seconds: number;
 }
 declare class CountdownTimer {
+    private config;
     private targetDate;
     private daysElement;
     private hoursElement;
     private minutesElement;
     private secondsElement;
+    private daysBoxElement;
     private intervalId;
-    constructor();
+    private daysHidden;
+    constructor(config: Config);
+    private updateDaysVisibility;
+    private updateDisplay;
     private calculateTimeRemaining;
     private formatNumber;
     private calculateProgress;
-    private updateDisplay;
     startTimer(): void;
     stopTimer(): void;
     restartTimer(): void;
 }
+declare function initTimer(): Promise<void>;
 //# sourceMappingURL=script.d.ts.map

@@ -1,7 +1,7 @@
 {
   "name": "newyeartimer",
   "author": "Маг Ильяс DOMA (MagIlyasDOMA)",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "scripts": {
     "runserver": "http-server -p 2026",
     "build": "tsc"

@@ -1,6 +1,3 @@
-const config: Config = (window as any).config;
-const YEAR = config.year || 2026;
-
 interface TimeRemaining {
     total: number;
     days: number;
@@ -15,17 +12,57 @@ class CountdownTimer {
     private hoursElement: HTMLElement;
     private minutesElement: HTMLElement;
     private secondsElement: HTMLElement;
+    private daysBoxElement: HTMLElement; // Добавляем ссылку на контейнер дней
     private intervalId: number | null = null;
+    private daysHidden: boolean = false; // Флаг для отслеживания состояния
 
-    constructor() {
-        // Устанавливаем целевое время - 1 января 2026 года
-        this.targetDate = new Date('January 1, 2026 00:00:00');
+    constructor(private config: Config) {
+        // Устанавливаем целевое время
+        this.targetDate = new Date(`January 1, ${this.config.year} 00:00:00`);
 
         // Получаем элементы DOM
+        this.daysBoxElement = document.querySelector('.timer-box:nth-child(1)') as HTMLElement;
         this.daysElement = document.getElementById('days')!;
         this.hoursElement = document.getElementById('hours')!;
         this.minutesElement = document.getElementById('minutes')!;
         this.secondsElement = document.getElementById('seconds')!;
+    }
+
+    // Метод для скрытия/показа блока дней
+    private updateDaysVisibility(days: number): void {
+        if (days === 0 && !this.daysHidden) {
+            // Скрываем блок дней и следующий разделитель
+            this.daysBoxElement.classList.add('days-hidden');
+            this.daysHidden = true;
+        } else if (days > 0 && this.daysHidden) {
+            // Показываем блок дней и разделитель
+            this.daysBoxElement.classList.remove('days-hidden');
+            this.daysHidden = false;
+        }
+    }
+
+    // Метод для обновления отображения таймера
+    private updateDisplay(): void {
+        const time = this.calculateTimeRemaining();
+
+        // Обновляем видимость блока дней
+        this.updateDaysVisibility(time.days);
+
+        // Обновляем значения таймера
+        this.daysElement.textContent = this.formatNumber(time.days);
+        this.hoursElement.textContent = this.formatNumber(time.hours);
+        this.minutesElement.textContent = this.formatNumber(time.minutes);
+        this.secondsElement.textContent = this.formatNumber(time.seconds);
+
+        // Воспроизводим звук только когда аудио готово
+        if (!document.hidden || this.config.soundIfIsHidden) {
+            if (soundPlayer.isReady() && this.config.sound) {
+                soundPlayer.loadSound('clock', 'clock.mp3')
+                    .then(() => {
+                        soundPlayer.playSound('clock', 0.3);
+                    });
+            }
+        }
     }
 
     // Метод для расчета оставшегося времени
@@ -77,28 +114,6 @@ class CountdownTimer {
         return progress;
     }
 
-    // Метод для обновления отображения таймера
-    private updateDisplay(): void {
-        const time = this.calculateTimeRemaining();
-
-        // Обновляем значения таймера
-        this.daysElement.textContent = this.formatNumber(time.days);
-        this.hoursElement.textContent = this.formatNumber(time.hours);
-        this.minutesElement.textContent = this.formatNumber(time.minutes);
-        this.secondsElement.textContent = this.formatNumber(time.seconds);
-
-        // Воспроизводим звук только когда аудио готово
-        // и только каждую секунду (когда секунды меняются)
-        if (!document.hidden || config.soundIfIsHidden) {
-            if (soundPlayer.isReady() && config.sound) {
-                soundPlayer.loadSound('clock', 'clock.mp3')
-                    .then(() => {
-                        soundPlayer.playSound('clock', 0.3);
-                    })
-            }
-        }
-    }
-
     // Метод для запуска таймера
     public startTimer(): void {
         // Сначала обновляем сразу, чтобы избежать задержки
@@ -121,16 +136,25 @@ class CountdownTimer {
     // Метод для перезапуска таймера
     public restartTimer(): void {
         this.stopTimer();
-        this.targetDate = new Date(`January 1, ${YEAR} 00:00:00`);
+        this.targetDate = new Date(`January 1, ${this.config.year} 00:00:00`);
         this.startTimer();
     }
 }
 
-// Инициализация и запуск таймера при загрузке страницы
-document.addEventListener('DOMContentLoaded', () => {
-    const timer = new CountdownTimer();
-    timer.startTimer();
 
-    // Экспорт для отладки (можно удалить в production)
+async function initTimer() {
+    // Ждём, пока config появится в window
+    while (!(window as any).config) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+    }
+
+    const config: Config = (window as any).config;
+
+    // Инициализация и запуск таймера
+    const timer = new CountdownTimer(config);
+    timer.startTimer();
     (window as any).timer = timer;
-});
+}
+
+// Инициализация и запуск таймера при загрузке страницы
+document.addEventListener('DOMContentLoaded', initTimer);

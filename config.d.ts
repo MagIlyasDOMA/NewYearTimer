@@ -5,16 +5,22 @@ interface NYTConfig {
     sound?: boolean;
     soundIfIsHidden?: boolean;
     timerTransparency?: TransparencyValue;
+    useColon: boolean;
 }
 declare class Config {
     year: number;
     sound: boolean;
     soundIfIsHidden: boolean;
     private _timerTransparency;
+    private _useColon;
     constructor(options: NYTConfig);
     static get timerBoxes(): TimerBoxesCollection;
     private updateTimerTransparency;
+    static get colonSeparators(): TimerBoxesCollection;
     get transparentTimer(): TransparencyValue;
     set transparentTimer(value: TransparencyValue);
+    private updateColon;
+    get useColon(): boolean;
+    set useColon(value: boolean);
 }
 //# sourceMappingURL=config.d.ts.map

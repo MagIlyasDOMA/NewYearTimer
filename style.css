@@ -139,3 +139,31 @@ h1 {
         font-size: 1em;
     }
 }
+
+#click {color: var(--hrenpack-bg-ahren);}
+
+.timer-separator {
+    font-size: 3.5em;
+    font-weight: bold;
+    color: var(--hrenpack-color-ahren);
+    display: flex;
+    align-items: center;
+    margin: 0 5px;
+}
+
+/* Адаптивность для разделителей */
+@media (max-width: 768px) {
+    .timer-separator {
+        font-size: 2.8em;
+    }
+}
+
+@media (max-width: 480px) {
+    .timer-separator {
+        font-size: 2.2em;
+    }
+}
+
+.timer-container .timer-box.days-hidden + .timer-separator {
+    display: none;
+}

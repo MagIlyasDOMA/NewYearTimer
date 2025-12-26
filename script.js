@@ -1,8 +1,12 @@
 "use strict";
-const config = window.config;
-const YEAR = config.year || 2026;
 class CountdownTimer {
-    constructor() {
+    constructor(config) {
+        Object.defineProperty(this, "config", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: config
+        });
         Object.defineProperty(this, "targetDate", {
             enumerable: true,
             configurable: true,
@@ -33,17 +37,56 @@ class CountdownTimer {
             writable: true,
             value: void 0
         });
+        Object.defineProperty(this, "daysBoxElement", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
         Object.defineProperty(this, "intervalId", {
             enumerable: true,
             configurable: true,
             writable: true,
             value: null
         });
-        this.targetDate = new Date('January 1, 2026 00:00:00');
+        Object.defineProperty(this, "daysHidden", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: false
+        });
+        this.targetDate = new Date(`January 1, ${this.config.year} 00:00:00`);
+        this.daysBoxElement = document.querySelector('.timer-box:nth-child(1)');
         this.daysElement = document.getElementById('days');
         this.hoursElement = document.getElementById('hours');
         this.minutesElement = document.getElementById('minutes');
         this.secondsElement = document.getElementById('seconds');
+    }
+    updateDaysVisibility(days) {
+        if (days === 0 && !this.daysHidden) {
+            this.daysBoxElement.classList.add('days-hidden');
+            this.daysHidden = true;
+        }
+        else if (days > 0 && this.daysHidden) {
+            this.daysBoxElement.classList.remove('days-hidden');
+            this.daysHidden = false;
+        }
+    }
+    updateDisplay() {
+        const time = this.calculateTimeRemaining();
+        this.updateDaysVisibility(time.days);
+        this.daysElement.textContent = this.formatNumber(time.days);
+        this.hoursElement.textContent = this.formatNumber(time.hours);
+        this.minutesElement.textContent = this.formatNumber(time.minutes);
+        this.secondsElement.textContent = this.formatNumber(time.seconds);
+        if (!document.hidden || this.config.soundIfIsHidden) {
+            if (soundPlayer.isReady() && this.config.sound) {
+                soundPlayer.loadSound('clock', 'clock.mp3')
+                    .then(() => {
+                    soundPlayer.playSound('clock', 0.3);
+                });
+            }
+        }
     }
     calculateTimeRemaining() {
         const now = new Date();
@@ -80,21 +123,6 @@ class CountdownTimer {
         progress = Math.max(0, Math.min(100, progress));
         return progress;
     }
-    updateDisplay() {
-        const time = this.calculateTimeRemaining();
-        this.daysElement.textContent = this.formatNumber(time.days);
-        this.hoursElement.textContent = this.formatNumber(time.hours);
-        this.minutesElement.textContent = this.formatNumber(time.minutes);
-        this.secondsElement.textContent = this.formatNumber(time.seconds);
-        if (!document.hidden || config.soundIfIsHidden) {
-            if (soundPlayer.isReady() && config.sound) {
-                soundPlayer.loadSound('clock', 'clock.mp3')
-                    .then(() => {
-                    soundPlayer.playSound('clock', 0.3);
-                });
-            }
-        }
-    }
     startTimer() {
         this.updateDisplay();
         this.intervalId = window.setInterval(() => {
@@ -109,13 +137,18 @@ class CountdownTimer {
     }
     restartTimer() {
         this.stopTimer();
-        this.targetDate = new Date(`January 1, ${YEAR} 00:00:00`);
+        this.targetDate = new Date(`January 1, ${this.config.year} 00:00:00`);
         this.startTimer();
     }
 }
-document.addEventListener('DOMContentLoaded', () => {
-    const timer = new CountdownTimer();
+async function initTimer() {
+    while (!window.config) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    const config = window.config;
+    const timer = new CountdownTimer(config);
     timer.startTimer();
     window.timer = timer;
-});
+}
+document.addEventListener('DOMContentLoaded', initTimer);
 //# sourceMappingURL=script.js.map
