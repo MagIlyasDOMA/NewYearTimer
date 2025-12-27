@@ -3,7 +3,7 @@
   "author": "Маг Ильяс DOMA (MagIlyasDOMA)",
   "version": "1.2.1",
   "scripts": {
-    "runserver": "http-server -p 2026",
+    "start": "http-server -p 2026",
     "build": "tsc"
   },
   "dependencies": {
