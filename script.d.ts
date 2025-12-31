@@ -14,7 +14,7 @@ declare class CountdownTimer {
     private secondsElement;
     private daysBoxElement;
     private intervalId;
-    private daysHidden;
+    daysHidden: boolean;
     constructor(config: Config);
     private updateDaysVisibility;
     private updateDisplay;

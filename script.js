@@ -64,11 +64,11 @@ class CountdownTimer {
     }
     updateDaysVisibility(days) {
         if (days === 0 && !this.daysHidden) {
-            this.daysBoxElement.classList.add('days-hidden');
+            this.daysBoxElement.style.display = 'none';
             this.daysHidden = true;
         }
         else if (days > 0 && this.daysHidden) {
-            this.daysBoxElement.classList.remove('days-hidden');
+            this.daysBoxElement.style.display = 'block';
             this.daysHidden = false;
         }
     }

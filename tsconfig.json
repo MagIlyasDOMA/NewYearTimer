@@ -10,7 +10,7 @@
 
 	// Строгость типов
 	"strict": true,
-	"strictNullChecks": false,
+//	"strictNullChecks": false,
 	"noUncheckedIndexedAccess": true,
 //	"exactOptionalPropertyTypes": true,
 

@@ -14,7 +14,7 @@ class CountdownTimer {
     private secondsElement: HTMLElement;
     private daysBoxElement: HTMLElement; // Добавляем ссылку на контейнер дней
     private intervalId: number | null = null;
-    private daysHidden: boolean = false; // Флаг для отслеживания состояния
+    public daysHidden: boolean = false; // Флаг для отслеживания состояния
 
     constructor(private config: Config) {
         // Устанавливаем целевое время
@@ -32,11 +32,11 @@ class CountdownTimer {
     private updateDaysVisibility(days: number): void {
         if (days === 0 && !this.daysHidden) {
             // Скрываем блок дней и следующий разделитель
-            this.daysBoxElement.classList.add('days-hidden');
+            this.daysBoxElement.style.display = 'none';
             this.daysHidden = true;
         } else if (days > 0 && this.daysHidden) {
             // Показываем блок дней и разделитель
-            this.daysBoxElement.classList.remove('days-hidden');
+            this.daysBoxElement.style.display = 'block';
             this.daysHidden = false;
         }
     }
@@ -44,7 +44,6 @@ class CountdownTimer {
     // Метод для обновления отображения таймера
     private updateDisplay(): void {
         const time = this.calculateTimeRemaining();
-
         // Обновляем видимость блока дней
         this.updateDaysVisibility(time.days);
 
